@@ -7,7 +7,7 @@ require_once "vendor/autoload.php";
 
 // Create a simple "default" Doctrine ORM configuration for Annotations
 $isDevMode = true;
-$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/src"), $isDevMode);
+$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/model"), $isDevMode);
 
 // database configuration parameters
 $conn = array(
@@ -20,3 +20,9 @@ $entityManager = EntityManager::create($conn, $config);
 
 // check if we are in console
 define('CLI', php_sapi_name() == 'cli' || isset($_SERVER['argc'])  && (is_numeric($_SERVER['argc']) && $_SERVER['argc'] > 0));
+
+set_exception_handler(function($exception) {
+	http_response_code(500);
+	require 'template/exception.php';
+	die;
+});
