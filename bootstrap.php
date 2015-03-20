@@ -3,10 +3,16 @@
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
+$isDevMode = true;
+if ($isDevMode) {
+	ini_set('display_errors',1);
+	ini_set('display_startup_errors',1);
+	error_reporting(-1);
+}
+
 require_once "vendor/autoload.php";
 
 // Create a simple "default" Doctrine ORM configuration for Annotations
-$isDevMode = true;
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/model"), $isDevMode);
 
 // database configuration parameters
@@ -26,3 +32,6 @@ set_exception_handler(function($exception) {
 	require 'template/exception.php';
 	die;
 });
+
+session_start();
+require_once 'core/Templater.php';
